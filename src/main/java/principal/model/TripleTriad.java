@@ -32,9 +32,7 @@ public class TripleTriad {
 		Set<Integer> numsRand = generateRandomNumbers(QTDCARDS,100);
 		
 		Map<Integer,List<String>> cardsData = ReadCardsData(numsRand);
-		
-		System.out.println(cardsData);
-		
+				
 		int cardsCreate = 0;
 		
 		for(Map.Entry<Integer,List<String>> entry : cardsData.entrySet()) {
