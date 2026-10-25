@@ -5,17 +5,22 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ThreadPoolExecutor.DiscardPolicy;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TripleTriad {
 	private Player player1;
 	private Player player2;
 	private Board board;
-	Card[] Card = new Card[10];
+	private static final int QTDCARDS = 10;
+	private static Card[] cards = new Card[QTDCARDS];
 	
 	public TripleTriad(Player player1,Player player2) {
 		this.player1  = player1;
@@ -23,13 +28,54 @@ public class TripleTriad {
 		//board = new Board(3,3);
 		}
 	
-	public void createRandomCards() {
-		Set<Integer> numsRand = generateRandomNumbers(10,100);
+	public static void createRandomCards() {
+		Set<Integer> numsRand = generateRandomNumbers(QTDCARDS,100);
 		
 		Map<Integer,List<String>> cardsData = ReadCardsData(numsRand);
+		
+		System.out.println(cardsData);
+		
+		int cardsCreate = 0;
+		
+		for(Map.Entry<Integer,List<String>> entry : cardsData.entrySet()) {
+			int id = entry.getKey();
+			
+			List<String> values = entry.getValue();
+			values.removeFirst();
+			String name = values.removeFirst();
+			String ranks = values.removeFirst();
+			
+			Map<String,Integer> ranksCard = new HashMap();
+			List<String> cardDirection = new ArrayList<>();
+			List<Integer> cardPoints = new ArrayList<>();
+			
+			Pattern patternPoints = Pattern.compile("\\d+");
+			
+			Pattern patternDirection = Pattern.compile("[a-zA-Z]+");
+			
+			Matcher matcherPoints = patternPoints.matcher(ranks);
+			
+			Matcher matcherDirection = patternDirection.matcher(ranks);
+			
+			while (matcherPoints.find()) {
+			    cardPoints.add(Integer.parseInt(matcherPoints.group()));
+			}
+			
+			while (matcherDirection.find()) {
+			    cardDirection.add(matcherDirection.group());
+			}
+			
+			for (int i = 0; i < cardDirection.size(); i++) {
+			    ranksCard.put(cardDirection.get(i), cardPoints.get(i));
+			}
+			
+			Card cardNew = new Card(id,name,ranksCard);
+			
+			cards[cardsCreate++] = cardNew;
+		}
 	}
 	
-	public Set<Integer> generateRandomNumbers(int qtd, int bound) {
+	public static Set<Integer> generateRandomNumbers(int qtd, int bound) {
 		Set<Integer> nums = new HashSet<>(); 
 		Random rand = new Random();
 		
@@ -40,8 +86,8 @@ public class TripleTriad {
 		return nums;
 	}
 	
-	public Map<Integer, List<String>> ReadCardsData(Set<Integer> indexes){
-		Map<Integer,List<String>> cardData =  new HashMap<Integer, List<String>>();
+	public static Map<Integer,List<String>> ReadCardsData(Set<Integer> indexes){
+		Map<Integer,List<String>> cardsData =  new HashMap<Integer, List<String>>();
 				
 		InputStream input = TripleTriad.class.getResourceAsStream("/data/cards.csv");
 		
@@ -58,7 +104,7 @@ public class TripleTriad {
 			            int id = Integer.parseInt(values[0].trim());
 
 			            if (indexes.contains(id)) {
-			                cardData.put(id, List.of(values));
+			                cardsData.put(id, List.of(values));
 			            }
 			        }
 				 
@@ -66,7 +112,11 @@ public class TripleTriad {
 			    	e.printStackTrace();
 			    }
 
-			    return cardData;
+			    return cardsData;
+	}
+	
+	public static void main(String[] args) {
+		createRandomCards();
 	}
 	
 }
