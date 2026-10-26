@@ -22,25 +22,57 @@ public class Board {
 		int rowRigth = row, colRight = col + 1;
 		int rowDown = row + 1,colDown = col;
 		
-		try {
-			Card cardTop = grid[rowTop][colTop];
-			Card cardLeft = grid[rowLeft][colLeft];
-			Card cardRight = grid[rowRigth][colRight];
-			Card cardDown = grid[rowDown][colDown];
-		} catch (ArrayIndexOutOfBoundsException e) {
-			// TODO: handle exception
+		Card playedCard =  grid[row][col];
+		Card cardTop = verifyCardPosistionInBounds(rowTop, colTop);
+		Card cardLeft = verifyCardPosistionInBounds(rowLeft, colLeft);
+		Card cardRight = verifyCardPosistionInBounds(rowRigth, colRight);
+		Card cardDown = verifyCardPosistionInBounds(rowDown, colDown);
+		
+		if(cardTop != null) {
+			boolean result = battle(playedCard, cardTop, "UP");
+			startCombo(result, rowTop, colTop);
 		}
-	
-		
-		
+		if(cardLeft != null) {
+			boolean result = battle(playedCard, cardLeft, "LEFT");
+			startCombo(result, rowLeft, colLeft);
+		}
+		if(cardRight != null) {
+			boolean result = battle(playedCard, cardRight, "RIGHT");
+			startCombo(result, rowRigth, colRight);
+		}
+		if(cardDown != null) {
+			boolean result = battle(playedCard, cardDown, "DOWN");
+			startCombo(result, rowDown, colDown);
+		}
 	}
 	
-	public boolean transform(Card oponent,Player owner) {
-		return true;
+	public boolean battle(Card playedCard, Card adversaryCard, String rank) {
+		if(playedCard.compareValueOf(rank, adversaryCard)) {
+			transform(adversaryCard, playedCard.getOwner());
+			return true;
+		}
+		
+		return false;
 	}
 	
-	public void startCombt() {
-		
+	public Card verifyCardPosistionInBounds(int row, int col) {
+		try {
+			return grid[row][col];
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return null;
+		}
+	}
+	
+	public void transform(Card oponent,Player owner) {
+		oponent.getOwner().setPoints(oponent.getOwner().getPoints()-1);
+		oponent.setOwner(owner);
+		owner.setPoints(owner.getPoints()+1);
+	}
+	
+	public void startCombo(boolean result, int row, int col) {
+		if(result) {
+			compare(row, col);
+		}
 	}
 	
 	public boolean checkPositionOccupied(int row, int col) {

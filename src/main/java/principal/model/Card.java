@@ -13,9 +13,9 @@ public class Card {
 	private Map<String, Integer> ranks;
 	private String element;
 	private boolean visible;
-	private Color owner;
+	private Player owner;
 	
-	public Card(int id, String name, String element, boolean visible, Color owner) {
+	public Card(int id, String name, String element, boolean visible, Player owner) {
 		this.id = id;
 		this.name = name;
 		this.element = element;
@@ -69,6 +69,14 @@ public class Card {
 			default:
 				return false;
 		}
+	}
+	
+	public Player getOwner() {
+		return this.owner;
+	}
+	
+	public void setOwner(Player player) {
+		this.owner = player;
 	}
 
 	@Override
