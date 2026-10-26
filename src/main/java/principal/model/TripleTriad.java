@@ -27,7 +27,7 @@ public class TripleTriad {
 		//board = new Board(3,3);
 		}
 	
-	public static void createRandomCards() {
+	public void createRandomCards() {
 		Set<Integer> numsRand = generateRandomNumbers(QTDCARDS,100);
 		
 		Map<Integer,List<String>> cardsData = ReadCardsData(numsRand);
@@ -74,7 +74,7 @@ public class TripleTriad {
 		}
 	}
 	
-	public static Set<Integer> generateRandomNumbers(int qtd, int bound) {
+	public Set<Integer> generateRandomNumbers(int qtd, int bound) {
 		Set<Integer> nums = new HashSet<>(); 
 		Random rand = new Random();
 		
@@ -85,7 +85,7 @@ public class TripleTriad {
 		return nums;
 	}
 	
-	public static HashMap<Integer,List<String>> ReadCardsData(Set<Integer> indexes){
+	public HashMap<Integer,List<String>> ReadCardsData(Set<Integer> indexes){
 		HashMap<Integer,List<String>> cardsData =  new HashMap<Integer, List<String>>();
 				
 		InputStream input = TripleTriad.class.getResourceAsStream("/data/cards.csv");
@@ -113,5 +113,7 @@ public class TripleTriad {
 
 			    return cardsData;
 	}
+	
+	
 	
 }
