@@ -8,12 +8,8 @@ public class Board {
 		grid = new Card[3][3];
 	}
 	
-	public boolean addCard(Card card, int row, int col) {
-		if(checkPositionOccupied(row,col)) {
-			return false;
-		}
+	public void addCard(Card card,int row,int col) {
 		grid[row][col] = card;
-		return true;
 	}
 	
 	public void compare(int row, int col) {
@@ -75,8 +71,8 @@ public class Board {
 		}
 	}
 	
-	public boolean checkPositionOccupied(int row, int col) {
-		return grid[row][col] != null;
+	public boolean checkPositionUnoccupied(int row, int col) {
+		return grid[row][col] == null;
 	}
 	
 }

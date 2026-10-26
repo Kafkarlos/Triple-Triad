@@ -127,4 +127,25 @@ public class TripleTriad {
 			}
 		}
 	}
+	
+	public String playCard(int row, int col, int turn) {
+		if(checkPosition(row, col)) {
+			return "Posições inválidas";
+		}
+		if(board.checkPositionUnoccupied(row, col)) {
+			return "Posição já possue carta ocupada";
+		}
+		Card cardAdded;
+		if(turn % 2 == 0) {
+			cardAdded = player1.playFirstCard();
+		} else {
+			cardAdded = player2.playFirstCard();
+		}
+		board.addCard(cardAdded, row, col);
+		return "Carta adicionada com sucesso!";
+	}
+	
+	public boolean checkPosition(int row,int col) {
+		return row > 2 || row < 0 || col < 0 || col > 2;
+	}
 }
