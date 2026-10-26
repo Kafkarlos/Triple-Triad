@@ -11,7 +11,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
-import java.util.concurrent.ThreadPoolExecutor.DiscardPolicy;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,7 +42,7 @@ public class TripleTriad {
 			String name = values.removeFirst();
 			String ranks = values.removeFirst();
 			
-			Map<String,Integer> ranksCard = new HashMap();
+			HashMap<String,Integer> ranksCard = new HashMap<>();
 			List<String> cardDirection = new ArrayList<>();
 			List<Integer> cardPoints = new ArrayList<>();
 			
@@ -67,7 +66,9 @@ public class TripleTriad {
 			    ranksCard.put(cardDirection.get(i), cardPoints.get(i));
 			}
 			
-			Card cardNew = new Card(id,name,ranksCard);
+			String element = values.removeFirst();
+			
+			Card cardNew = new Card(id,name,element,ranksCard);
 			
 			cards[cardsCreate++] = cardNew;
 		}
@@ -84,8 +85,8 @@ public class TripleTriad {
 		return nums;
 	}
 	
-	public static Map<Integer,List<String>> ReadCardsData(Set<Integer> indexes){
-		Map<Integer,List<String>> cardsData =  new HashMap<Integer, List<String>>();
+	public static HashMap<Integer,List<String>> ReadCardsData(Set<Integer> indexes){
+		HashMap<Integer,List<String>> cardsData =  new HashMap<Integer, List<String>>();
 				
 		InputStream input = TripleTriad.class.getResourceAsStream("/data/cards.csv");
 		
@@ -111,10 +112,6 @@ public class TripleTriad {
 			    }
 
 			    return cardsData;
-	}
-	
-	public static void main(String[] args) {
-		createRandomCards();
 	}
 	
 }
