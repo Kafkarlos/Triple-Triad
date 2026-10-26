@@ -7,7 +7,7 @@ import principal.model.enums.Color;
 public class Player {
 	private Color color;
 	private int points;
-	private List<Card> hand = new LinkedList<>();
+	private LinkedList<Card> hand = new LinkedList<Card>();
 	
 	public Player(Color color){
 		this.color = color;
