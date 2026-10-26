@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -114,6 +115,16 @@ public class TripleTriad {
 			    return cardsData;
 	}
 	
-	
-	
+	public void dealTheCards() {
+		for(int i = 0;i < QTDCARDS;i++) {
+			Card cardCurrent = cards[i];
+			if(i < QTDCARDS / 2) {
+				cardCurrent.setOwner(player1);
+				player1.addHand(cards[i]);
+			} else {
+				cardCurrent.setOwner(player2);
+				player2.addHand(cards[i]);;
+			}
+		}
+	}
 }
