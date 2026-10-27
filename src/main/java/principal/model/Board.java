@@ -71,8 +71,8 @@ public class Board {
 		}
 	}
 	
-	public boolean checkPositionUnoccupied(int row, int col) {
-		return grid[row][col] == null;
+	public boolean checkPositionOccupied(int row, int col) {
+		return grid[row][col] != null;
 	}
 	
 }

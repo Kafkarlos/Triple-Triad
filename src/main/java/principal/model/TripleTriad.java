@@ -129,10 +129,10 @@ public class TripleTriad {
 	}
 	
 	public String playCard(int row, int col, int turn) {
-		if(checkPosition(row, col)) {
+		if(!checkPosition(row, col)) {
 			return "Posições inválidas";
 		}
-		if(board.checkPositionUnoccupied(row, col)) {
+		if(board.checkPositionOccupied(row, col)) {
 			return "Posição já possue carta ocupada";
 		}
 		Card cardAdded;
@@ -146,6 +146,6 @@ public class TripleTriad {
 	}
 	
 	public boolean checkPosition(int row,int col) {
-		return row > 2 || row < 0 || col < 0 || col > 2;
+		return row <= 2 && row >= 0 && col >= 0 && col <= 2;
 	}
 }
