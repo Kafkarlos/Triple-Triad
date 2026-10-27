@@ -2,6 +2,7 @@ package principal.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.jline.utils.AttributedString;
 import org.jline.utils.AttributedStyle;
 
 import principal.model.enums.Color;
@@ -15,13 +16,13 @@ public class Card {
 	private boolean visible;
 	private Player owner;
 	
-	public Card(int id, String name, String element, boolean visible, Player owner) {
+	public Card(int id, String name, String element, boolean visible, Player owner, HashMap<String, Integer> ranks) {
 		this.id = id;
 		this.name = name;
 		this.element = element;
 		this.visible = false;
 		this.owner = owner;
-		this.ranks = new HashMap<String, Integer>();
+		this.ranks = ranks;
 	}
 	
 	public boolean compareValueOfLeft(Card adversaryCard) {
@@ -80,9 +81,48 @@ public class Card {
 	}
 
 	@Override
-	public String toString() {
-		return "Nome:" + name + ", ranks=" + ranks + "]";
+    public String toString() {
+		   String nomeColorido = new AttributedString(
+			        name,
+			        owner.getColor().getStyle()
+			    ).toAnsi();
+
+			    return String.format(
+			        "%-10s%n  %d%n%d ★ %d%n  %d",
+			        nomeColorido,
+			        ranks.get("UP"),
+			        ranks.get("LEFT"),
+			        ranks.get("RIGHT"),
+			        ranks.get("DOWN")
+			    );
+    }
+	
+	public String toStringOnBoard() {
+	    AttributedStyle style = owner.getColor().getStyle();
+
+	    String up = new AttributedString(
+	        String.valueOf(ranks.get("UP")),
+	        style
+	    ).toAnsi();
+
+	    String left = new AttributedString(
+	        String.valueOf(ranks.get("LEFT")),
+	        style
+	    ).toAnsi();
+
+	    String right = new AttributedString(
+	        String.valueOf(ranks.get("RIGHT")),
+	        style
+	    ).toAnsi();
+
+	    String down = new AttributedString(
+	        String.valueOf(ranks.get("DOWN")),
+	        style
+	    ).toAnsi();
+
+	    return String.format(
+	        " %s %n%s %s%n %s ",
+	        up, left, right, down
+	    );
 	}
-	
-	
 }
