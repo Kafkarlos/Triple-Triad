@@ -25,7 +25,7 @@ public class TripleTriad {
 	public TripleTriad(Player player1,Player player2) {
 		this.player1  = player1;
 		this.player2 = player2;
-		//board = new Board(3,3);
+		board = new Board(3,3);
 		}
 	
 	public void createRandomCards() {
@@ -125,6 +125,13 @@ public class TripleTriad {
 				cardCurrent.setOwner(player2);
 				player2.addHand(cards[i]);;
 			}
+		}
+	}
+	
+	public void suddenDeath() {
+		board = new Board(3,3);
+		for(Card card: cards) {
+			card.getOwner().addHand(card);
 		}
 	}
 	

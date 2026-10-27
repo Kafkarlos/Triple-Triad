@@ -15,9 +15,19 @@ public class Player {
 	}
 	
 	public void addHand(Card card) {
-		hand.add(card);
+		if(!checkCardInHand(card)) {
+			hand.add(card);
+		}
 	}
 	
+	public boolean checkCardInHand(Card newCard) {
+		for(Card card: hand) {
+			if(card == newCard) {
+				return true;
+			}
+		}
+		return false;
+	}
 	public Card playFirstCard() {
 		if(hand.isEmpty()) {
 			return null;
