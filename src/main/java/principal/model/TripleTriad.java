@@ -15,6 +15,9 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import principal.model.enums.Color;
+
+
 public class TripleTriad {
 	private Player player1;
 	private Player player2;
@@ -154,5 +157,17 @@ public class TripleTriad {
 	
 	public boolean checkPosition(int row,int col) {
 		return row <= 2 && row >= 0 && col >= 0 && col <= 2;
+	}
+	
+	public Color verifyMatchResult() {
+		Color colorOwner;
+		if(player1.getPoints() > player2.getPoints()) {
+			colorOwner = player1.getColor();
+		} else if(player1.getPoints() > player2.getPoints()) {
+			colorOwner = player2.getColor();
+		} else {
+			colorOwner = Color.GRAY;
+		}
+		return colorOwner;
 	}
 }
