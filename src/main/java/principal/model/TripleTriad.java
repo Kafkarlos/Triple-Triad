@@ -163,7 +163,7 @@ public class TripleTriad {
 		Color colorOwner;
 		if(player1.getPoints() > player2.getPoints()) {
 			colorOwner = player1.getColor();
-		} else if(player1.getPoints() > player2.getPoints()) {
+		} else if(player1.getPoints() < player2.getPoints()) {
 			colorOwner = player2.getColor();
 		} else {
 			colorOwner = Color.GRAY;
