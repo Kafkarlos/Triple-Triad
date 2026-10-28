@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -34,14 +35,14 @@ public class TripleTriad {
 	public void createRandomCards() {
 		Set<Integer> numsRand = generateRandomNumbers(QTDCARDS,100);
 		
-		Map<Integer,List<String>> cardsData = ReadCardsData(numsRand);
+		Map<Integer, LinkedList<String>> cardsData = ReadCardsData(numsRand);
 				
 		int cardsCreate = 0;
 		
-		for(Map.Entry<Integer,List<String>> entry : cardsData.entrySet()) {
+		for(Map.Entry<Integer, LinkedList<String>> entry : cardsData.entrySet()) {
 			int id = entry.getKey();
 			
-			List<String> values = entry.getValue();
+			LinkedList<String> values = entry.getValue();
 			values.removeFirst();
 			String name = values.removeFirst();
 			String ranks = values.removeFirst();
@@ -89,8 +90,8 @@ public class TripleTriad {
 		return nums;
 	}
 	
-	public HashMap<Integer,List<String>> ReadCardsData(Set<Integer> indexes){
-		HashMap<Integer,List<String>> cardsData =  new HashMap<Integer, List<String>>();
+	public HashMap<Integer,LinkedList<String>> ReadCardsData(Set<Integer> indexes){
+		HashMap<Integer,LinkedList<String>> cardsData =  new HashMap<Integer, LinkedList<String>>();
 				
 		InputStream input = TripleTriad.class.getResourceAsStream("/data/cards.csv");
 		
@@ -107,7 +108,8 @@ public class TripleTriad {
 			            int id = Integer.parseInt(values[0].trim());
 
 			            if (indexes.contains(id)) {
-			                cardsData.put(id, List.of(values));
+			            	
+			                cardsData.put(id, new LinkedList<>(Arrays.asList(values)));
 			            }
 			        }
 				 
@@ -152,6 +154,7 @@ public class TripleTriad {
 			cardAdded = player2.playFirstCard();
 		}
 		board.addCard(cardAdded, row, col);
+		board.compare(row, col);
 		return "Carta adicionada com sucesso!";
 	}
 	
@@ -169,5 +172,63 @@ public class TripleTriad {
 			colorOwner = Color.GRAY;
 		}
 		return colorOwner;
+	}
+	
+	public String gameScenario(int turn) {
+		Player current  = (turn % 2 == 0) ? player1 : player2;
+		Player opponent = (turn % 2 == 0) ? player2 : player1;
+
+		final int boardWidth = 3 * 13 + 2;      // 3 cartas de 13 colunas + 2 espaços
+		final String gap = "   ";
+
+		// tabuleiro (usa Board.toString)
+		String[] boardLines = board.toString().split("\n");
+
+		// cartas visíveis do oponente, cada uma acompanhada do seu índice na mão
+		List<Card> opponentHand = opponent.getHand();
+		List<String> sideLines = new ArrayList<String>();
+		for (Card c : opponent.getVisibleCards()) {
+			String[] lines = c.toString().split("\n");
+			int index = opponentHand.indexOf(c);
+			for (int i = 0; i < lines.length; i++) {
+				if (i == lines.length / 2) {
+					sideLines.add(lines[i] + " [" + index + "]");
+				} else {
+					sideLines.add(lines[i]);
+				}
+			}
+		}
+
+		StringBuilder sb = new StringBuilder();
+
+		// cabeçalho da coluna do oponente
+		sb.append(String.format("%" + (boardWidth + gap.length()) + "s", ""));
+		sb.append("Mão do oponente\n");
+
+		for (int i = 0; i < boardLines.length; i++) {
+			sb.append(boardLines[i]);
+			if (i < sideLines.size()) {
+				sb.append(gap).append(sideLines.get(i));
+			}
+			sb.append("\n");
+		}
+
+		// mão do jogador da vez, na horizontal (usa Card.toString)
+		sb.append("\nSua mão\n");
+		List<Card> hand = current.getHand();
+		if (!hand.isEmpty()) {
+			String[][] handLines = new String[hand.size()][];
+			for (int i = 0; i < hand.size(); i++) {
+				handLines[i] = hand.get(i).toString().split("\n");
+			}
+			for (int line = 0; line < handLines[0].length; line++) {
+				for (int i = 0; i < handLines.length; i++) {
+					sb.append(handLines[i][line]).append(" ");
+				}
+				sb.append("\n");
+			}
+		}
+
+		return sb.toString();
 	}
 }

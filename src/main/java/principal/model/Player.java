@@ -1,4 +1,6 @@
 package principal.model;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -51,4 +53,31 @@ public class Player {
 		return hand;
 	}
 	
+	
+	public List<Card> getVisibleCards() {
+		List<Card> visible = new ArrayList<Card>();
+		List<Card> hidden = new ArrayList<Card>();
+		for (Card c : hand) {
+			if (c.isVisible()) {
+				visible.add(c);
+			} else {
+				hidden.add(c);
+			}
+		}
+
+		Collections.shuffle(hidden);
+		int target = Math.min(3, hand.size());
+		while (visible.size() < target && !hidden.isEmpty()) {
+			Card c = hidden.remove(0);
+			c.setVisible(true);
+			visible.add(c);
+		}
+		return visible;
+	}
+
+	public void hideCards() {
+		for (Card c : hand) {
+			c.setVisible(false);
+		}
+	}
 }

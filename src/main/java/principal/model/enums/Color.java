@@ -6,7 +6,7 @@ public enum Color {
 
 	RED(AttributedStyle.RED),
 	BLUE(AttributedStyle.BLUE | AttributedStyle.BRIGHT),
-	GRAY(AttributedStyle.BLACK);
+	GRAY(0);
 	
 	private final int code;
 	
