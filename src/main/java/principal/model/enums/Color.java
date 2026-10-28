@@ -4,7 +4,7 @@ import org.jline.utils.AttributedStyle;
 
 public enum Color {
 	RED(AttributedStyle.RED),
-	BLUE(AttributedStyle.BLUE);
+	BLUE(AttributedStyle.BLUE | AttributedStyle.BRIGHT);;
 	
 	private final int code;
 	

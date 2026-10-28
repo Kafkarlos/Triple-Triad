@@ -164,15 +164,7 @@ public class Board {
 		if (owner == null || owner.getColor() == null) {
 			return AttributedStyle.DEFAULT;
 		}
-		Color color = owner.getColor();
-		switch (color) {
-			case RED:
-				return AttributedStyle.DEFAULT.foreground(AttributedStyle.RED).bold();
-			case BLUE:
-				return AttributedStyle.DEFAULT.foreground(AttributedStyle.BLUE).bold();
-			default:
-				return AttributedStyle.DEFAULT;
-		}
+		return owner.getColor().getStyle().bold();
 	}
 	
 }
