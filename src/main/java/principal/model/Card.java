@@ -20,7 +20,7 @@ public class Card {
 		this.id = id;
 		this.name = name;
 		this.element = element;
-		this.visible = false;
+		this.visible = visible;
 		this.owner = owner;
 		this.ranks = ranks;
 	}
