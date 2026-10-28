@@ -79,6 +79,14 @@ public class Card {
 	public void setOwner(Player player) {
 		this.owner = player;
 	}
+	
+	public String getName() {
+	    return name;
+	}
+
+	public int getRank(String direction) {
+	    return ranks.getOrDefault(direction, 0);
+	}
 
 	@Override
     public String toString() {
