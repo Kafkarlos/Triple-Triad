@@ -20,9 +20,17 @@ public class Console {
 	public void beginGame() {
 		
 	}
-	public void showGame(int turn) {
+	public static void showGame(int turn) {
 		
 	}
+	
+	public static void startBatlle() {
+		int turn = 0;
+		while(turn < 10) {
+			showGame(turn);
+		}
+	}
+	
 	public void showWinner(Color cor) {
 		
 	}
