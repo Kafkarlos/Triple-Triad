@@ -25,11 +25,13 @@ public class TripleTriad {
 	private Board board;
 	private static final int QTDCARDS = 10;
 	private static Card[] cards = new Card[QTDCARDS];
+	private static final int ROWBOARD = 3;
+	private static final int COLBOARD = 3;
 	
 	public TripleTriad(Player player1,Player player2) {
 		this.player1  = player1;
 		this.player2 = player2;
-		board = new Board(3,3);
+		board = new Board(ROWBOARD,COLBOARD);
 		}
 	
 	public void createRandomCards() {
@@ -140,12 +142,9 @@ public class TripleTriad {
 		}
 	}
 	
-	public String playCard(int row, int col, int turn) {
-		if(!checkPosition(row, col)) {
-			return "Posições inválidas";
-		}
+	public boolean playCard(int row, int col, int turn) {
 		if(board.checkPositionOccupied(row, col)) {
-			return "Posição já possue carta ocupada";
+			return false;
 		}
 		Card cardAdded;
 		if(turn % 2 == 0) {
@@ -155,11 +154,11 @@ public class TripleTriad {
 		}
 		board.addCard(cardAdded, row, col);
 		board.compare(row, col);
-		return "Carta adicionada com sucesso!";
+		return true;
 	}
 	
 	public boolean checkPosition(int row,int col) {
-		return row <= 2 && row >= 0 && col >= 0 && col <= 2;
+		return row < ROWBOARD && row >= 0 && col >= 0 && col < COLBOARD;
 	}
 	
 	public Color verifyMatchResult() {

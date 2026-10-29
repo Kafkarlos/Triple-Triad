@@ -17,7 +17,7 @@ public class Controlador {
 		game.dealTheCards();
 	}
 
-	public String playCard(int row, int col, int turn) {
+	public boolean playCard(int row, int col, int turn) {
 		return game.playCard(row, col, turn);
 	}
 
