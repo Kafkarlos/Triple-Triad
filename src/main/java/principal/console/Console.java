@@ -1,14 +1,16 @@
 package principal.console;
 import java.util.Scanner;
 import principal.model.enums.Color;
+import principal.model.Player;
 import principal.controller.Controlador;
+
 
 public class Console {
 	private static Controlador controlador;
 	private static Scanner sc = new Scanner(System.in);
 	
 	public Console() {
-		controlador = new Controlador();
+		controlador = new Controlador(new Player(Color.RED),new Player(Color.BLUE));
 	}	
 	
 	public void iniciarConsole() {
