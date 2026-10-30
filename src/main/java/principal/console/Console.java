@@ -1,16 +1,30 @@
 package principal.console;
+import java.io.IOException;
 import java.util.Scanner;
-import principal.model.enums.Color;
-import principal.model.Player;
+
+import org.jline.terminal.Terminal;
+import org.jline.terminal.TerminalBuilder;
+import org.jline.utils.InfoCmp;
+
 import principal.controller.Controlador;
+import principal.model.Player;
+import principal.model.enums.Color;
 
 
 public class Console {
 	private static Controlador controlador;
 	private static Scanner sc = new Scanner(System.in);
+	private static Terminal terminal;
+
 	
 	static {
 		controlador = new Controlador(new Player(Color.RED),new Player(Color.BLUE));
+		
+		try {
+			terminal = TerminalBuilder.builder().system(true).build();
+		} catch (IOException e) {
+			terminal = null;  
+		}
 	}	
 	
 	public static void iniciarConsole() {
@@ -96,8 +110,12 @@ public class Console {
 	}
 	
 	public static void clearTerminal() {
-	    System.out.print("\033[H\033[2J");
-	    System.out.flush();
+		if (terminal != null && terminal.puts(InfoCmp.Capability.clear_screen)) {
+			terminal.flush();
+			return;
+		}
+		System.out.print("\033[H\033[2J");
+		System.out.flush();
 	}
 	
 	private static void showWinner(Color color) {
