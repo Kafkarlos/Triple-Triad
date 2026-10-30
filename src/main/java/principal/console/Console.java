@@ -66,13 +66,17 @@ public class Console {
 			do{
 				row = lerInteiro("Informe a posição da linha onde deseja jogar a carta: ");
 				col = lerInteiro("Informe a posição da coluna onde deseja jogar a carta: ");
-				
+				row--;
+				col--;
 				if(!controlador.checkPosition(row, col)) {
 					System.out.println("Posição para posicionar carta inválida. Tente novamente");
+				} else {
+					validPosition = true;
 				}
-				
 				if(!controlador.playCard(row,col,turn)) {
 					System.out.println("Posição escolhida já possui carta ocupada. Tente novamente.");
+				} else {
+					validaPlayedCard = true;
 				}
 			}while(!(validPosition && validaPlayedCard));
 				
