@@ -36,4 +36,7 @@ public class Controlador {
 	public void suddenDeath() {
 		game.suddenDeath();
 	}
+	public int[] gameScore() {
+		return game.gameScore();
+	}
 }

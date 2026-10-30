@@ -173,6 +173,10 @@ public class TripleTriad {
 		return colorOwner;
 	}
 	
+	public int[] gameScore() {
+		return new int[] { player1.getPoints(), player2.getPoints() };
+	}
+	
 	public String gameScenario(int turn) {
 		Player current  = (turn % 2 == 0) ? player1 : player2;
 		Player opponent = (turn % 2 == 0) ? player2 : player1;

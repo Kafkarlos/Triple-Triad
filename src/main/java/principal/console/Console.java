@@ -71,8 +71,27 @@ public class Console {
 	    System.out.flush();
 	}
 	
-	public void showWinner(Color cor) {
+	public void showWinner(Color color) {
 		
+			String playerName = (color == Color.RED) ? "Jogador 1" : "Jogador 2";
+	        String playerColor = (color == Color.RED) ? "RED" : "AZUL";
+	        
+	        int[] scores = controlador.gameScore();
+
+	        System.out.println();
+	        System.out.println("==================================");
+	        System.out.println("          TRIPLE TRIAD");
+	        System.out.println("==================================");
+	        System.out.println();
+	        System.out.println("           FIM DE JOGO!");
+	        System.out.println();
+	        System.out.printf("       Vencedor: %s (%s)\n", playerName, playerColor);
+	        System.out.println();
+	        System.out.println("              PLACAR");
+	        System.out.println("----------------------------------");
+	        System.out.printf("       Jogador 1 (RED): %d pontos\n", scores[0]);
+	        System.out.printf("       Jogador 2 (AZUL): %d pontos\n", scores[1]);
+	        System.out.println("==================================");
 	}
 	
 	public static int lerInteiro(String mensagem) {
