@@ -17,7 +17,7 @@ public class Controlador {
 		game.dealTheCards();
 	}
 
-	public String playCard(int row, int col, int turn) {
+	public boolean playCard(int row, int col, int turn) {
 		return game.playCard(row, col, turn);
 	}
 
@@ -35,5 +35,12 @@ public class Controlador {
 
 	public void suddenDeath() {
 		game.suddenDeath();
+	}
+	public int[] gameScore() {
+		return game.gameScore();
+	}
+	
+	public String showBoard() {
+		return game.showBoard();
 	}
 }

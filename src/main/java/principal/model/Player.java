@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import principal.model.enums.Color;
 
@@ -54,23 +55,21 @@ public class Player {
 	}
 	
 	
+	public void initVisibleCards() {
+		List<Card> tempList = new ArrayList<>(hand);
+		Collections.shuffle(tempList);
+		int count = Math.min(3, tempList.size());
+		for (int i = 0; i < count; i++) {
+			tempList.get(i).setVisible(true);
+		}
+	}
+
 	public List<Card> getVisibleCards() {
 		List<Card> visible = new ArrayList<Card>();
-		List<Card> hidden = new ArrayList<Card>();
 		for (Card c : hand) {
 			if (c.isVisible()) {
 				visible.add(c);
-			} else {
-				hidden.add(c);
 			}
-		}
-
-		Collections.shuffle(hidden);
-		int target = Math.min(3, hand.size());
-		while (visible.size() < target && !hidden.isEmpty()) {
-			Card c = hidden.remove(0);
-			c.setVisible(true);
-			visible.add(c);
 		}
 		return visible;
 	}
@@ -80,4 +79,23 @@ public class Player {
 			c.setVisible(false);
 		}
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(color);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Player other = (Player) obj;
+		return color == other.color;
+	}
+	
+	
 }

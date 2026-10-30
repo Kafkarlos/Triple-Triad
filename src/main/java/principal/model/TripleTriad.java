@@ -1,20 +1,22 @@
 package principal.model;
-import java.util.List;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.jline.utils.AttributedString;
 
 import principal.model.enums.Color;
 
@@ -25,11 +27,13 @@ public class TripleTriad {
 	private Board board;
 	private static final int QTDCARDS = 10;
 	private static Card[] cards = new Card[QTDCARDS];
+	private static final int ROWBOARD = 3;
+	private static final int COLBOARD = 3;
 	
 	public TripleTriad(Player player1,Player player2) {
 		this.player1  = player1;
 		this.player2 = player2;
-		board = new Board(3,3);
+		board = new Board(ROWBOARD,COLBOARD);
 		}
 	
 	public void createRandomCards() {
@@ -131,6 +135,9 @@ public class TripleTriad {
 				player2.addHand(cards[i]);;
 			}
 		}
+		
+		player1.initVisibleCards();
+		player2.initVisibleCards();
 	}
 	
 	public void suddenDeath() {
@@ -140,12 +147,9 @@ public class TripleTriad {
 		}
 	}
 	
-	public String playCard(int row, int col, int turn) {
-		if(!checkPosition(row, col)) {
-			return "Posições inválidas";
-		}
+	public boolean playCard(int row, int col, int turn) {
 		if(board.checkPositionOccupied(row, col)) {
-			return "Posição já possue carta ocupada";
+			return false;
 		}
 		Card cardAdded;
 		if(turn % 2 == 0) {
@@ -155,11 +159,11 @@ public class TripleTriad {
 		}
 		board.addCard(cardAdded, row, col);
 		board.compare(row, col);
-		return "Carta adicionada com sucesso!";
+		return true;
 	}
 	
 	public boolean checkPosition(int row,int col) {
-		return row <= 2 && row >= 0 && col >= 0 && col <= 2;
+		return row < ROWBOARD && row >= 0 && col >= 0 && col < COLBOARD;
 	}
 	
 	public Color verifyMatchResult() {
@@ -174,46 +178,49 @@ public class TripleTriad {
 		return colorOwner;
 	}
 	
+	public int[] gameScore() {
+		return new int[] { player1.getPoints(), player2.getPoints() };
+	}
+	
 	public String gameScenario(int turn) {
 		Player current  = (turn % 2 == 0) ? player1 : player2;
 		Player opponent = (turn % 2 == 0) ? player2 : player1;
 
-		final int boardWidth = 3 * 13 + 2;      // 3 cartas de 13 colunas + 2 espaços
+		final int boardWidth = 3 * 13 + 2;   
+		final int sideWidth = 17;            
 		final String gap = "   ";
 
-		// tabuleiro (usa Board.toString)
 		String[] boardLines = board.toString().split("\n");
 
-		// cartas visíveis do oponente, cada uma acompanhada do seu índice na mão
 		List<Card> opponentHand = opponent.getHand();
 		List<String> sideLines = new ArrayList<String>();
 		for (Card c : opponent.getVisibleCards()) {
 			String[] lines = c.toString().split("\n");
-			int index = opponentHand.indexOf(c);
+			int index = opponentHand.indexOf(c)+1;
 			for (int i = 0; i < lines.length; i++) {
 				if (i == lines.length / 2) {
 					sideLines.add(lines[i] + " [" + index + "]");
 				} else {
-					sideLines.add(lines[i]);
+					sideLines.add(lines[i] + "    ");
 				}
 			}
 		}
 
+		List<String> scoreLines = scoreColumn(boardLines.length);
+
 		StringBuilder sb = new StringBuilder();
 
-		// cabeçalho da coluna do oponente
-		sb.append(String.format("%" + (boardWidth + gap.length()) + "s", ""));
-		sb.append("Mão do oponente\n");
+		sb.append(spaces(boardWidth + gap.length()));
+		sb.append(String.format("%-" + sideWidth + "s", "Mão do oponente"));
+		sb.append(gap).append("Pontos\n");
 
 		for (int i = 0; i < boardLines.length; i++) {
-			sb.append(boardLines[i]);
-			if (i < sideLines.size()) {
-				sb.append(gap).append(sideLines.get(i));
-			}
+			sb.append(boardLines[i]).append(gap);
+			sb.append(i < sideLines.size() ? sideLines.get(i) : spaces(sideWidth));
+			sb.append(gap).append(scoreLines.get(i));
 			sb.append("\n");
 		}
 
-		// mão do jogador da vez, na horizontal (usa Card.toString)
 		sb.append("\nSua mão\n");
 		List<Card> hand = current.getHand();
 		if (!hand.isEmpty()) {
@@ -230,5 +237,31 @@ public class TripleTriad {
 		}
 
 		return sb.toString();
+	}
+
+	private List<String> scoreColumn(int height) {
+		final int total = 10;
+		int p1 = Math.max(0, Math.min(total, player1.getPoints()));
+		int top = Math.max(0, (height - total) / 2);
+
+		List<String> lines = new ArrayList<String>();
+		for (int i = 0; i < height; i++) {
+			int k = i - top;
+			if (k < 0 || k >= total) {
+				lines.add("");
+			} else {
+				Player owner = (k < p1) ? player1 : player2;
+				lines.add(new AttributedString("■", owner.getColor().getStyle()).toAnsi());
+			}
+		}
+		return lines;
+	}
+
+	private String spaces(int n) {
+		return String.format("%" + n + "s", "");
+	}
+	
+	public String showBoard() {
+		return board.toString();
 	}
 }

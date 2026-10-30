@@ -17,7 +17,7 @@ public class Card {
 	private Player owner;
 	
 	public static final int INNER_WIDTH = 11;
-	public static final int WIDTH = INNER_WIDTH + 2;   // 13 colunas
+	public static final int WIDTH = INNER_WIDTH + 2;  
 	public static final int HEIGHT = 5;
 	
 	public Card(int id, String name, String element,HashMap<String,Integer> ranks) {
@@ -94,7 +94,6 @@ public class Card {
 
 	public void setVisible(boolean visible) { this.visible = visible; }
 
-	// as 5 linhas da carta, já com a cor do dono (ANSI)
 	public String[] toLines() {
 		String name = this.name == null ? "" : this.name;
 		if (name.length() > INNER_WIDTH - 2) {
@@ -121,7 +120,6 @@ public class Card {
 		return out;
 	}
 
-	// espaço vazio do tabuleiro, em cinza
 	public static String[] emptyLines() {
 		String[] plain = new String[HEIGHT];
 		plain[0] = "┌" + repeat("─", INNER_WIDTH) + "┐";
@@ -144,7 +142,7 @@ public class Card {
 
 	private String rankText(String direction) {
 		int value = getRank(direction);
-		return value >= 10 ? "A" : String.valueOf(value);   // 10 vira "A"
+		return value >= 10 ? "A" : String.valueOf(value); 
 	}
 
 	private static String center(String text, int width) {

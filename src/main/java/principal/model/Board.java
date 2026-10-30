@@ -1,14 +1,6 @@
 package principal.model;
 
-import org.jline.utils.AttributedStringBuilder;
-import org.jline.utils.AttributedStyle;
-
-import principal.model.enums.Color;
-
 public class Board {
-
-	private static final int INNER_WIDTH = 11;
-	private static final int CARD_LINES  = 5;
 	
 	Card[][] grid;
 	
@@ -32,19 +24,19 @@ public class Board {
 		Card cardRight = verifyCardPosistionInBounds(rowRigth, colRight);
 		Card cardDown = verifyCardPosistionInBounds(rowDown, colDown);
 		
-		if(cardTop != null) {
+		if(cardTop != null && !cardTop.getOwner().equals(playedCard.getOwner())) {
 			boolean result = battle(playedCard, cardTop, "UP");
 			startCombo(result, rowTop, colTop);
 		}
-		if(cardLeft != null) {
+		if(cardLeft != null && !cardLeft.getOwner().equals(playedCard.getOwner())) {
 			boolean result = battle(playedCard, cardLeft, "LEFT");
 			startCombo(result, rowLeft, colLeft);
 		}
-		if(cardRight != null) {
+		if(cardRight != null && !cardRight.getOwner().equals(playedCard.getOwner())) {
 			boolean result = battle(playedCard, cardRight, "RIGHT");
 			startCombo(result, rowRigth, colRight);
 		}
-		if(cardDown != null) {
+		if(cardDown != null && !cardDown.getOwner().equals(playedCard.getOwner())) {
 			boolean result = battle(playedCard, cardDown, "DOWN");
 			startCombo(result, rowDown, colDown);
 		}
