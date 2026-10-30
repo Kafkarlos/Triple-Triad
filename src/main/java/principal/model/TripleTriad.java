@@ -133,6 +133,9 @@ public class TripleTriad {
 				player2.addHand(cards[i]);;
 			}
 		}
+		
+		player1.initVisibleCards();
+		player2.initVisibleCards();
 	}
 	
 	public void suddenDeath() {
@@ -192,7 +195,7 @@ public class TripleTriad {
 		List<String> sideLines = new ArrayList<String>();
 		for (Card c : opponent.getVisibleCards()) {
 			String[] lines = c.toString().split("\n");
-			int index = opponentHand.indexOf(c);
+			int index = opponentHand.indexOf(c) + 1;
 			for (int i = 0; i < lines.length; i++) {
 				if (i == lines.length / 2) {
 					sideLines.add(lines[i] + " [" + index + "]");
