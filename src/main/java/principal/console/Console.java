@@ -9,21 +9,41 @@ public class Console {
 	private static Controlador controlador;
 	private static Scanner sc = new Scanner(System.in);
 	
-	public Console() {
+	static {
 		controlador = new Controlador(new Player(Color.RED),new Player(Color.BLUE));
 	}	
 	
-	public void iniciarConsole() {
+	public static void iniciarConsole() {
+		showRules();
+		beginGame();
 		
-	}
-	public void showRules() {
+		boolean matchFinished = false;
+		Color playerWinner = null;
 		
-	}
-	public void beginGame() {
+		do {
+			startBatlle();
+			playerWinner = controlador.verifyMatchResult();
+			matchFinished = playerWinner == Color.GRAY ? false : true;
+			if(!matchFinished) {
+				controlador.suddenDeath();
+			}
+			
+		} while (!matchFinished);
 		
+		showWinner(playerWinner);
 	}
+	
+	public static void showRules() {
+		System.out.println(Rules.get());
+		waitForEnter();
+	}
+	
+	private static void beginGame() {
+		controlador.startGame();
+	}
+	
 	public static void showGame(int turn) {
-		
+		System.out.println(controlador.gameScenario(turn));
 	}
 	
 	public static void startBatlle() {
@@ -66,12 +86,17 @@ public class Console {
 	    sc.nextLine();
 	}
 	
+	public static void waitForEnter() {
+	    System.out.printf("\nPressione ENTER para continuar...\n");
+	    sc.nextLine();
+	}
+	
 	public static void clearTerminal() {
 	    System.out.print("\033[H\033[2J");
 	    System.out.flush();
 	}
 	
-	public void showWinner(Color color) {
+	private static void showWinner(Color color) {
 		
 			String playerName = (color == Color.RED) ? "Jogador 1" : "Jogador 2";
 	        String playerColor = (color == Color.RED) ? "RED" : "AZUL";
