@@ -32,19 +32,19 @@ public class Board {
 		Card cardRight = verifyCardPosistionInBounds(rowRigth, colRight);
 		Card cardDown = verifyCardPosistionInBounds(rowDown, colDown);
 		
-		if(cardTop != null) {
+		if(cardTop != null && !cardTop.getOwner().equals(playedCard.getOwner())) {
 			boolean result = battle(playedCard, cardTop, "UP");
 			startCombo(result, rowTop, colTop, playedCard.getOwner());
 		}
-		if(cardLeft != null) {
+		if(cardLeft != null && !cardLeft.getOwner().equals(playedCard.getOwner())) {
 			boolean result = battle(playedCard, cardLeft, "LEFT");
 			startCombo(result, rowLeft, colLeft, playedCard.getOwner());
 		}
-		if(cardRight != null) {
+		if(cardRight != null && !cardRight.getOwner().equals(playedCard.getOwner())) {
 			boolean result = battle(playedCard, cardRight, "RIGHT");
 			startCombo(result, rowRigth, colRight, playedCard.getOwner());
 		}
-		if(cardDown != null) {
+		if(cardDown != null && !cardDown.getOwner().equals(playedCard.getOwner())) {
 			boolean result = battle(playedCard, cardDown, "DOWN");
 			startCombo(result, rowDown, colDown, playedCard.getOwner());
 		}
@@ -74,7 +74,7 @@ public class Board {
 	}
 	
 	public void startCombo(boolean result, int row, int col, Player currentPlayer) {
-		if(result && !grid[row][col].getOwner().equals(currentPlayer)) {
+		if(result) {
 			compare(row, col);
 		}
 	}
