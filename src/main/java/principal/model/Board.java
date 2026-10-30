@@ -34,19 +34,19 @@ public class Board {
 		
 		if(cardTop != null) {
 			boolean result = battle(playedCard, cardTop, "UP");
-			startCombo(result, rowTop, colTop);
+			startCombo(result, rowTop, colTop, playedCard.getOwner());
 		}
 		if(cardLeft != null) {
 			boolean result = battle(playedCard, cardLeft, "LEFT");
-			startCombo(result, rowLeft, colLeft);
+			startCombo(result, rowLeft, colLeft, playedCard.getOwner());
 		}
 		if(cardRight != null) {
 			boolean result = battle(playedCard, cardRight, "RIGHT");
-			startCombo(result, rowRigth, colRight);
+			startCombo(result, rowRigth, colRight, playedCard.getOwner());
 		}
 		if(cardDown != null) {
 			boolean result = battle(playedCard, cardDown, "DOWN");
-			startCombo(result, rowDown, colDown);
+			startCombo(result, rowDown, colDown, playedCard.getOwner());
 		}
 	}
 	
@@ -73,8 +73,8 @@ public class Board {
 		owner.setPoints(owner.getPoints()+1);
 	}
 	
-	public void startCombo(boolean result, int row, int col) {
-		if(result) {
+	public void startCombo(boolean result, int row, int col, Player currentPlayer) {
+		if(result && !grid[row][col].getOwner().equals(currentPlayer)) {
 			compare(row, col);
 		}
 	}
