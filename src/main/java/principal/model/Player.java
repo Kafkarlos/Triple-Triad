@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import principal.model.enums.Color;
 
@@ -78,4 +79,23 @@ public class Player {
 			c.setVisible(false);
 		}
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(color);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Player other = (Player) obj;
+		return color == other.color;
+	}
+	
+	
 }
