@@ -186,19 +186,17 @@ public class TripleTriad {
 		Player current  = (turn % 2 == 0) ? player1 : player2;
 		Player opponent = (turn % 2 == 0) ? player2 : player1;
 
-		final int boardWidth = 3 * 13 + 2;   // 3 cartas de 13 colunas + 2 espaços
-		final int sideWidth = 17;            // 13 da carta + " [i]"
+		final int boardWidth = 3 * 13 + 2;   
+		final int sideWidth = 17;            
 		final String gap = "   ";
 
-		// tabuleiro (usa Board.toString)
 		String[] boardLines = board.toString().split("\n");
 
-		// cartas visíveis do oponente, cada uma com seu índice, todas com 17 colunas
 		List<Card> opponentHand = opponent.getHand();
 		List<String> sideLines = new ArrayList<String>();
 		for (Card c : opponent.getVisibleCards()) {
 			String[] lines = c.toString().split("\n");
-			int index = opponentHand.indexOf(c);
+			int index = opponentHand.indexOf(c)+1;
 			for (int i = 0; i < lines.length; i++) {
 				if (i == lines.length / 2) {
 					sideLines.add(lines[i] + " [" + index + "]");
@@ -208,12 +206,10 @@ public class TripleTriad {
 			}
 		}
 
-		// coluna de pontos, uma string por linha do tabuleiro
 		List<String> scoreLines = scoreColumn(boardLines.length);
 
 		StringBuilder sb = new StringBuilder();
 
-		// cabeçalho
 		sb.append(spaces(boardWidth + gap.length()));
 		sb.append(String.format("%-" + sideWidth + "s", "Mão do oponente"));
 		sb.append(gap).append("Pontos\n");
@@ -225,7 +221,6 @@ public class TripleTriad {
 			sb.append("\n");
 		}
 
-		// mão do jogador da vez, na horizontal (usa Card.toString)
 		sb.append("\nSua mão\n");
 		List<Card> hand = current.getHand();
 		if (!hand.isEmpty()) {
@@ -244,7 +239,6 @@ public class TripleTriad {
 		return sb.toString();
 	}
 
-	// 10 quadrados coloridos, centralizados na altura do tabuleiro
 	private List<String> scoreColumn(int height) {
 		final int total = 10;
 		int p1 = Math.max(0, Math.min(total, player1.getPoints()));
@@ -265,5 +259,9 @@ public class TripleTriad {
 
 	private String spaces(int n) {
 		return String.format("%" + n + "s", "");
+	}
+	
+	public String showBoard() {
+		return board.toString();
 	}
 }

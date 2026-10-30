@@ -1,14 +1,6 @@
 package principal.model;
 
-import org.jline.utils.AttributedStringBuilder;
-import org.jline.utils.AttributedStyle;
-
-import principal.model.enums.Color;
-
 public class Board {
-
-	private static final int INNER_WIDTH = 11;
-	private static final int CARD_LINES  = 5;
 	
 	Card[][] grid;
 	
@@ -34,19 +26,19 @@ public class Board {
 		
 		if(cardTop != null && !cardTop.getOwner().equals(playedCard.getOwner())) {
 			boolean result = battle(playedCard, cardTop, "UP");
-			startCombo(result, rowTop, colTop, playedCard.getOwner());
+			startCombo(result, rowTop, colTop);
 		}
 		if(cardLeft != null && !cardLeft.getOwner().equals(playedCard.getOwner())) {
 			boolean result = battle(playedCard, cardLeft, "LEFT");
-			startCombo(result, rowLeft, colLeft, playedCard.getOwner());
+			startCombo(result, rowLeft, colLeft);
 		}
 		if(cardRight != null && !cardRight.getOwner().equals(playedCard.getOwner())) {
 			boolean result = battle(playedCard, cardRight, "RIGHT");
-			startCombo(result, rowRigth, colRight, playedCard.getOwner());
+			startCombo(result, rowRigth, colRight);
 		}
 		if(cardDown != null && !cardDown.getOwner().equals(playedCard.getOwner())) {
 			boolean result = battle(playedCard, cardDown, "DOWN");
-			startCombo(result, rowDown, colDown, playedCard.getOwner());
+			startCombo(result, rowDown, colDown);
 		}
 	}
 	
@@ -73,7 +65,7 @@ public class Board {
 		owner.setPoints(owner.getPoints()+1);
 	}
 	
-	public void startCombo(boolean result, int row, int col, Player currentPlayer) {
+	public void startCombo(boolean result, int row, int col) {
 		if(result) {
 			compare(row, col);
 		}

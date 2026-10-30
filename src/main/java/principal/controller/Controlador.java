@@ -39,4 +39,8 @@ public class Controlador {
 	public int[] gameScore() {
 		return game.gameScore();
 	}
+	
+	public String showBoard() {
+		return game.showBoard();
+	}
 }

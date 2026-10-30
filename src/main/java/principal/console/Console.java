@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
+import org.jline.utils.AttributedString;
+import org.jline.utils.AttributedStyle;
 import org.jline.utils.InfoCmp;
 
 import principal.controller.Controlador;
@@ -39,6 +41,12 @@ public class Console {
 			playerWinner = controlador.verifyMatchResult();
 			matchFinished = playerWinner == Color.GRAY ? false : true;
 			if(!matchFinished) {
+				 AttributedString text = new AttributedString(
+						    "\n========= Morte Súbita =========", 
+				            AttributedStyle.BOLD.foreground(AttributedStyle.YELLOW)
+				        );
+				System.out.println("\n========= JOGO EMPATADO =========");
+				System.out.println(text.toAnsi());
 				controlador.suddenDeath();
 			}
 			
@@ -49,7 +57,6 @@ public class Console {
 	
 	public static void showRules() {
 		System.out.println(Rules.get());
-		waitForEnter();
 	}
 	
 	private static void beginGame() {
@@ -97,15 +104,13 @@ public class Console {
 			turn++;
 			
 		}
+		
+		clearTerminal();
+		System.out.println(controlador.showBoard());
 	}
 	
 	public static void waitForEnter(String playerName,String color) {
 	    System.out.printf("\nVez de %s (%s) . Pressione ENTER para continuar...\n",playerName,color);
-	    sc.nextLine();
-	}
-	
-	public static void waitForEnter() {
-	    System.out.printf("\nPressione ENTER para continuar...\n");
 	    sc.nextLine();
 	}
 	
