@@ -74,12 +74,6 @@ public class Player {
 		return visible;
 	}
 
-	public void hideCards() {
-		for (Card c : hand) {
-			c.setVisible(false);
-		}
-	}
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(color);
