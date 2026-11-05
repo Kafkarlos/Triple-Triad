@@ -29,7 +29,7 @@ public class Console {
 		}
 	}	
 	
-	public static void iniciarConsole() {
+	public static void beginConsole() {
 		showRules();
 		beginGame();
 		
@@ -55,7 +55,7 @@ public class Console {
 		showWinner(playerWinner);
 	}
 	
-	public static void showRules() {
+	private static void showRules() {
 		System.out.println(Rules.get());
 	}
 	
@@ -63,7 +63,7 @@ public class Console {
 		controlador.startGame();
 	}
 	
-	public static void showGame(int turn) {
+	private static void showGame(int turn) {
 		System.out.println(controlador.gameScenario(turn));
 	}
 	

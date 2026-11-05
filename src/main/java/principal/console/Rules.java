@@ -26,7 +26,6 @@ public class Rules {
 			"O jogo termina quando todas as 9 casas do tabuleiro forem preenchidas. Quem tiver "
 			+ "o maior número de cartas sob seu controle no final da partida vence.");
 
-		// ---
 		sb.append(repeat("─", WIDTH), AttributedStyle.DEFAULT.faint());
 		sb.append("\n\n");
 
