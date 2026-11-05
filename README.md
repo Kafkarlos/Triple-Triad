@@ -11,7 +11,7 @@
 ![Java: 8](https://img.shields.io/badge/Java-8-orange)
 ![Maven](https://img.shields.io/badge/Maven-build-blue)
 ![JLine](https://img.shields.io/badge/JLine-terminal-purple)
-![Status: em desenvolvimento](https://img.shields.io/badge/Status-em%20desenvolvimento-yellow)
+![Status: concluido](https://img.shields.io/badge/Status-concluido-green)
 
 </div>
 
